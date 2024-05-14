@@ -52,6 +52,10 @@ bindir := $(prefix)/bin/$(binsubdir)
 override CFLAGS += -O2 -g -Wall -pedantic -Werror -Wshadow -std=c99
 override CXXFLAGS += -O2 -g -Wall -pedantic -Werror -Wshadow
 
+ifeq ($(shell printf "int main(int argc, char* argv[]) { return 0; }\n" | $(CC) -x c -o /dev/null -Wbad-function-cast -Werror - 2> /dev/null && echo 'ok'),ok)
+  override CFLAGS += -Wbad-function-cast
+endif
+
 ifeq ($(shell printf "int main(int argc, char* argv[]) { return 0; }\n" | $(CXX) -x c++ -o /dev/null -Wuseless-cast -Werror - 2> /dev/null && echo 'ok'),ok)
   override CXXFLAGS += -Wuseless-cast
 endif
