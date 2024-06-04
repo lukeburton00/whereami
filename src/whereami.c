@@ -68,7 +68,13 @@ extern "C" {
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif
+#if (_MSC_VER >= 1900)
 #include <stdbool.h>
+#else
+#define bool int
+#define false 0
+#define true 1
+#endif
 
 static int WAI_PREFIX(getModulePath_)(HMODULE module, char* out, int capacity, int* dirname_length)
 {
